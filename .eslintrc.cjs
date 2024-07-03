@@ -18,6 +18,6 @@ module.exports = {
     ],
     "semi": ["error", "always"],
     "react-refresh/only-export-components": "off",
-
+    "no-new": "off"
   },
 }

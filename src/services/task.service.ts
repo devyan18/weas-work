@@ -1,5 +1,6 @@
 import { server } from "@/supabase/client";
 import { User } from "@supabase/supabase-js";
+import z from "zod";
 
 export type Task = {
   id: number;
@@ -8,6 +9,16 @@ export type Task = {
   completed: boolean;
   created_at: string;
 };
+
+export const createTaskSchema = z.object({
+  desc: z
+    .string({
+      message: "Description must be a string",
+    })
+    .min(3, {
+      message: "Description must be at least 3 characters long",
+    }),
+});
 
 export class TaskService {
   static async getAll({ workspaceId }: { workspaceId: number | string }) {
@@ -32,9 +43,15 @@ export class TaskService {
     const { data: session } = await server.auth.getUser();
     if (!session) return;
 
+    console.log({
+      desc,
+      workspaceId,
+      creator: session.user?.id,
+    });
+
     const { data } = await server
       .from("tasks")
-      .insert([{ desc, workspace_id: workspaceId, creator: session.user?.id }]);
+      .insert([{ desc, workspace: workspaceId, creator: session.user?.id }]);
 
     return data;
   }

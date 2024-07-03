@@ -1,5 +1,6 @@
 import { useAuth } from "@/providers/AuthProvider";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { NotificationIcon, SettingsIcon } from "../icons";
 
 type Props = {
   className?: string;
@@ -13,7 +14,7 @@ export const Navbar = ({ className }: Props) => {
   if (!user) {
     return (
       <nav className="w-full bg-black-200 rounded-3xl p-2 px-4 flex flex-row justify-between items-center">
-        <ul className="flex flex-row gap-4 pl-4">
+        <ul className="flex flex-row gap-4 pl-4 m-0">
           <li>
             <Link to="/signin" className="[&.active]:font-pbold font-pregular">
               Login
@@ -26,9 +27,9 @@ export const Navbar = ({ className }: Props) => {
 
   return (
     <nav
-      className={`w-full bg-black-200 rounded-3xl p-0 px-4 flex flex-row justify-between items-center ${className}`}
+      className={`w-full bg-black-200 rounded-3xl px-4 flex flex-row justify-between items-center h-[48px] ${className}`}
     >
-      <ul className="flex flex-row gap-4 pl-4">
+      <ul className="flex flex-row gap-4 pl-4 ">
         <li>
           <Link
             to="/private/home"
@@ -47,22 +48,24 @@ export const Navbar = ({ className }: Props) => {
         </li>
       </ul>
 
-      <div
-        className="flex flex-row gap-2 items-center cursor-pointer"
-        onClick={() => {
-          navigate({
-            to: "/private/profile",
-          });
-        }}
-      >
-        <span className="text-[14px] hover:underline hover:decoration-white">
-          {user?.username}
-        </span>
+      <div className="flex flex-row gap-8 items-center cursor-pointer">
+        <button className="hover:text-gray-400">
+          <NotificationIcon width={20} height={20} />
+        </button>
+
+        <button className="hover:text-gray-400">
+          <SettingsIcon width={20} height={20} />
+        </button>
 
         <img
           src={user?.avatar}
           alt={user?.username}
           className="h-8 rounded-full"
+          onClick={() => {
+            navigate({
+              to: "/private/profile",
+            });
+          }}
         />
       </div>
     </nav>

@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import { SVGProps } from "react";
 
 export function AddIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -11,7 +11,7 @@ export function AddIcon(props: SVGProps<SVGSVGElement>) {
     >
       <path
         fill="currentColor"
-        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h5q.425 0 .713.288T11 4t-.288.713T10 5H5v14h14v-5q0-.425.288-.712T20 13t.713.288T21 14v5q0 .825-.587 1.413T19 21zM16 8h-2q-.425 0-.712-.288T13 7t.288-.712T14 6h2V4q0-.425.288-.712T17 3t.713.288T18 4v2h2q.425 0 .713.288T21 7t-.288.713T20 8h-2v2q0 .425-.288.713T17 11t-.712-.288T16 10z"
+        d="M18 17h-2q-.425 0-.712-.288T15 16t.288-.712T16 15h2v-2q0-.425.288-.712T19 12t.713.288T20 13v2h2q.425 0 .713.288T23 16t-.288.713T22 17h-2v2q0 .425-.288.713T19 20t-.712-.288T18 19zM3 21q-.825 0-1.412-.587T1 19V5q0-.825.588-1.412T3 3h14q.825 0 1.413.588T19 5v4q0 .425-.288.713T18 10t-.712-.288T17 9V8H3v11h12q.425 0 .713.288T16 20t-.288.713T15 21z"
       ></path>
     </svg>
   );

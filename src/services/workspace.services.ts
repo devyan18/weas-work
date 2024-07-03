@@ -1,4 +1,29 @@
 import { server } from "@/supabase/client";
+import z from "zod";
+
+export const createWorkspaceSchema = z.object({
+  name: z
+    .string({
+      message: "Name must be a string",
+    })
+    .min(3, {
+      message: "Name must be at least 3 characters long",
+    }),
+
+  // url or null
+  logo: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val) return null;
+      try {
+        new URL(val);
+        return val;
+      } catch (error) {
+        throw new Error("Logo must be a valid URL");
+      }
+    }),
+});
 
 export type Workspace = {
   id: number;
@@ -61,11 +86,17 @@ export class WorkspaceService {
     return data[0] as Workspace;
   }
 
-  static async createWorkspace({ name }: { name: string }) {
+  static async createWorkspace({
+    name,
+    logo,
+  }: {
+    name: string;
+    logo: string | null;
+  }) {
     const { data: session } = await server.auth.getUser();
     const { data, error } = await server
       .from("workspaces")
-      .insert([{ name, creator: session.user?.id }])
+      .insert([{ name, creator: session.user?.id, logo }])
       .single();
 
     if (error) {

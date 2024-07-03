@@ -64,7 +64,7 @@ export const WorkspaceUnknownLogo = ({
     <div
       className={`w-6 h-6 ${getColorByLetter(
         workspaceName[0],
-      )} flex justify-center items-center rounded-full text-white`}
+      )} flex justify-center items-center rounded-lg text-white`}
     >
       <Text weight="bold" type="body">
         {workspaceName[0].toUpperCase()}

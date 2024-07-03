@@ -23,6 +23,7 @@ export const Modal = (props: Props) => {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      console.log("close");
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [props]);
