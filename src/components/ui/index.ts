@@ -5,3 +5,4 @@ export { Sidebar } from "./Sidebar";
 export { Text } from "./Text";
 export { Button } from "./Button";
 export { WorkspaceItem } from "./WorkspaceItem";
+export { TaskItem } from "./TaskItem";

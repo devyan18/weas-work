@@ -56,12 +56,12 @@ export const Navbar = ({ className }: Props) => {
         }}
       >
         <span className="text-[14px] hover:underline hover:decoration-white">
-          {user?.fullName}
+          {user?.username}
         </span>
 
         <img
           src={user?.avatar}
-          alt={user?.fullName}
+          alt={user?.username}
           className="h-8 rounded-full"
         />
       </div>

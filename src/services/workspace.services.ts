@@ -60,4 +60,18 @@ export class WorkspaceService {
 
     return data[0] as Workspace;
   }
+
+  static async createWorkspace({ name }: { name: string }) {
+    const { data: session } = await server.auth.getUser();
+    const { data, error } = await server
+      .from("workspaces")
+      .insert([{ name, creator: session.user?.id }])
+      .single();
+
+    if (error) {
+      console.error("Error al insertar el workspace:", error.message);
+    } else {
+      console.log("Nuevo workspace creado:", data);
+    }
+  }
 }

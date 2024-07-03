@@ -1,21 +1,22 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 import { server } from "@/supabase/client";
-
-type UserInfo = {
-  id: string;
-  fullName: string;
-  email: string;
-  avatar: string;
-};
+import { User } from "@supabase/supabase-js";
 
 type TypeOfLogins = "github" | "google";
+
+type UserParser = {
+  id: string;
+  email: string;
+  username: string;
+  avatar: string;
+};
 
 export type IAuthContext = {
   isAuth: boolean;
   login: (type: TypeOfLogins) => Promise<void>;
   logout: () => Promise<void>;
-  user: UserInfo | null;
+  user: UserParser | null;
 };
 
 const AuthContext = createContext<IAuthContext>({
@@ -25,12 +26,21 @@ const AuthContext = createContext<IAuthContext>({
   user: null,
 });
 
+export const userParser = (user: User): UserParser => {
+  return {
+    id: user.id!,
+    email: user.email!,
+    username: user.user_metadata.full_name!,
+    avatar: user.user_metadata.avatar_url!,
+  };
+};
+
 type Props = {
   children: React.ReactNode;
 };
 
 export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<UserInfo | null>(null);
+  const [user, setUser] = useState<UserParser | null>(null);
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
   const handleLogin = async (type: TypeOfLogins) => {
@@ -38,6 +48,8 @@ export const AuthProvider = ({ children }: Props) => {
       const { data, error } = await server.auth.signInWithOAuth({
         provider: type,
       });
+
+      console.log(error);
 
       if (error) {
         throw error;
@@ -57,8 +69,6 @@ export const AuthProvider = ({ children }: Props) => {
         throw error;
       }
 
-      console.log(error);
-
       setIsAuth(false);
     } catch (error) {
       console.error("Error logging out:", error);
@@ -66,25 +76,15 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    if (user) {
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
+    setIsAuth(!!user);
   }, [user]);
 
   useEffect(() => {
     server.auth.onAuthStateChange((_event, info) => {
-      if (info) {
-        const data = {
-          id: info.user.id as string,
-          fullName: info.user.user_metadata.full_name as string,
-          email: info.user.email as string,
-          avatar: info.user.user_metadata.avatar_url as string,
-        };
-        setUser(data);
+      if (info?.user) {
+        setUser(userParser(info.user));
 
-        if (data) {
+        if (info) {
           setIsAuth(true);
         } else {
           setIsAuth(false);
@@ -92,10 +92,6 @@ export const AuthProvider = ({ children }: Props) => {
       }
     });
   }, []);
-
-  useEffect(() => {
-    console.log(isAuth);
-  }, [isAuth]);
 
   return (
     <AuthContext.Provider

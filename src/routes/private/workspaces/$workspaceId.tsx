@@ -3,6 +3,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LayoutPage } from "@/components/layouts/LayoutPage";
 import { server } from "@/supabase/client";
 import { useEffect, useState } from "react";
+import { TaskItem } from "@/components/ui";
+import { Task, TaskService } from "@/services/task.service";
 
 export const Route = createFileRoute("/private/workspaces/$workspaceId")({
   loader: async ({ params }) => {
@@ -27,30 +29,43 @@ export const Route = createFileRoute("/private/workspaces/$workspaceId")({
   ),
 });
 
-type Task = {
-  id: number;
-  creator: string;
-  desc: string;
-  completed: boolean;
-};
-
 function WorkspaceComponent() {
   const { workspaceInfo } = Route.useLoaderData();
 
-  const [data, setData] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      const { data, error } = await server.from("tasks").select("*");
-      console.log({ tasks: data });
-      if (!data) {
-        console.log({ error });
-        return;
-      }
-      setData(data as Task[]);
-    }
-    fetchData();
-  }, []);
+    (async () => {
+      const tasks = await TaskService.getAll({
+        workspaceId: workspaceInfo.id,
+      });
+
+      if (!tasks) return;
+
+      setTasks(tasks);
+    })();
+  }, [workspaceInfo]);
+
+  server
+    .channel("tasks-changes")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "tasks",
+      },
+      async () => {
+        const tasks = await TaskService.getAll({
+          workspaceId: workspaceInfo.id,
+        });
+
+        if (!tasks) return;
+
+        setTasks(tasks);
+      },
+    )
+    .subscribe();
 
   return (
     <div className="p-5">
@@ -58,14 +73,9 @@ function WorkspaceComponent() {
       <p className="text-gray-500">{workspaceInfo.creator}</p>
       <p className="text-gray-500">{workspaceInfo.created_at}</p>
 
-      {data.map((task) => {
-        return (
-          <div key={task.id} className="p-2">
-            <p>{task.desc}</p>
-            <p>{task.completed ? "Completed" : "Not completed"}</p>
-          </div>
-        );
-      })}
+      {tasks.map((task) => (
+        <TaskItem key={task.id} task={task} />
+      ))}
     </div>
   );
 }
