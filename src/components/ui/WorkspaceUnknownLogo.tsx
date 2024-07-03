@@ -1,4 +1,4 @@
-import { Text } from "./Text";
+import { Text } from "@/components/ui";
 
 const colors = [
   "bg-red-500",

@@ -1,9 +1,9 @@
-import React from "react";
+import type { ReactNode } from "react";
 
 type Props = {
   type: "title" | "subtitle" | "body" | "info";
   truncate?: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   color?: "primary" | "secondary" | "danger" | "success" | "warning";
   weight?: "light" | "regular" | "bold";

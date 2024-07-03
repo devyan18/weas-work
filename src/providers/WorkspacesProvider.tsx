@@ -1,6 +1,6 @@
 import { WorkspaceService, Workspace } from "@/services/workspace.services";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "@/providers/AuthProvider";
 
 type IWorkspaceContext = {
   workspaces: Workspace[];

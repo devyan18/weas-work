@@ -1,7 +1,6 @@
 import { useWorkspaces } from "@/providers/WorkspacesProvider";
-import { Button, Text, WorkspaceItem } from "@components/ui";
-import { AddIcon } from "../icons/AddIcon";
-import { Modal, useModal } from "./Modal";
+import { Button, Text, WorkspaceItem, Modal, useModal } from "@components/ui";
+import { AddIcon } from "@components/icons";
 import { WorkspaceService } from "@/services/workspace.services";
 
 type Props = {

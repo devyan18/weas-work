@@ -1,5 +1,5 @@
 import { useAuth } from "@/providers/AuthProvider";
-import { GithubIcon } from "../icons/GithubIcon";
+import { GithubIcon } from "@/components/icons";
 
 export const LoginWithGithub = () => {
   const { login } = useAuth();

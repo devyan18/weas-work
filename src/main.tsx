@@ -3,8 +3,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
-import { AuthProvider, useAuth } from "./providers/AuthProvider";
-import { WorkspacesProvider } from "./providers/WorkspacesProvider";
+import { AuthProvider, useAuth } from "@/providers/AuthProvider";
+import { WorkspacesProvider } from "@/providers/WorkspacesProvider";
 
 // Create a new router instance
 const router = createRouter({ routeTree, context: { isAuth: undefined! } });

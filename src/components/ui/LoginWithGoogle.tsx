@@ -1,5 +1,5 @@
 import { useAuth } from "@/providers/AuthProvider";
-import { GoogleIcon } from "../icons/GoogleIcon";
+import { GoogleIcon } from "@/components/icons";
 
 export const LoginWithGoogle = () => {
   const { login } = useAuth();

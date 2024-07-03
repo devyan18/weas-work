@@ -1,7 +1,7 @@
 import { Workspace } from "@/services/workspace.services";
 import { Link } from "@tanstack/react-router";
 import { WorkspaceUnknownLogo } from "./WorkspaceUnknownLogo";
-import { Text } from "./Text";
+import { Text } from "@/components/ui";
 
 export const WorkspaceItem = ({ workspace }: { workspace: Workspace }) => {
   return (

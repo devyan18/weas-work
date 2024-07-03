@@ -1,8 +1,10 @@
-export { LoginWithGithub } from "./LoginWithGithub";
-export { LoginWithGoogle } from "./LoginWithGoogle";
-export { Navbar } from "./Navbar";
-export { Sidebar } from "./Sidebar";
-export { Text } from "./Text";
-export { Button } from "./Button";
-export { WorkspaceItem } from "./WorkspaceItem";
-export { TaskItem } from "./TaskItem";
+export * from "./Button";
+export * from "./LoginWithGithub";
+export * from "./LoginWithGoogle";
+export * from "./Modal";
+export * from "./Navbar";
+export * from "./Sidebar";
+export * from "./TaskItem";
+export * from "./Text";
+export * from "./WorkspaceItem";
+export * from "./WorkspaceUnknownLogo";

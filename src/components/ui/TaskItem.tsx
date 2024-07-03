@@ -1,11 +1,12 @@
 import { Task, TaskService } from "@/services/task.service";
-import { CheckIcon, CheckedIcon } from "@components/icons/CheckIcon";
 import { useState } from "react";
-import { LoadingIcon } from "../icons/LoadingIcon";
-import { ViewIcon } from "../icons/ViewIcon";
-import { Text } from "./Text";
-import { Modal, useModal } from "./Modal";
-import { Button } from "./Button";
+import {
+  LoadingIcon,
+  ViewIcon,
+  CheckIcon,
+  CheckedIcon,
+} from "@components/icons";
+import { Button, Modal, useModal, Text } from "@/components/ui";
 
 type Props = {
   task: Task;

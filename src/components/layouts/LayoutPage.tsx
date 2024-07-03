@@ -1,6 +1,5 @@
 import type React from "react";
-import { Navbar } from "../ui/Navbar";
-import { Sidebar } from "../ui/Sidebar";
+import { Navbar, Sidebar } from "@/components/ui";
 
 type Props = {
   children: React.ReactNode;
