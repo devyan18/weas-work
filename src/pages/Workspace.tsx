@@ -1,10 +1,12 @@
-import { AddIcon } from "@/components/icons";
+import { AddIcon, CloseIcon } from "@/components/icons";
 import { Modal, Text, useModal } from "@/components/ui";
 import { CreateTask } from "@/components/ui/CreateTask";
 import { TaskList } from "@/components/ui/TaskList";
 import { Task, TaskService } from "@/services/task.service";
-import { Workspace } from "@/services/workspace.services";
+import { Workspace } from "@/services/workspace.service";
 import { server } from "@/supabase/client";
+import { DragEndEvent } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 
 export const WorkspacePage = ({ workspace }: { workspace: Workspace }) => {
@@ -34,25 +36,76 @@ export const WorkspacePage = ({ workspace }: { workspace: Workspace }) => {
         table: "tasks",
       },
       async () => {
-        const tasks = await TaskService.getAll({
+        const actualTasks = await TaskService.getAll({
           workspaceId: workspace.id,
         });
 
-        if (!tasks) return;
+        if (!actualTasks) return;
 
-        setTasks(tasks);
+        setTasks(actualTasks);
       },
     )
     .subscribe();
 
+  const handleChangeTasks = async (e: DragEndEvent) => {
+    const { over, active } = e;
+    const oldIndex = tasks.findIndex((task) => task.id === active.id);
+    const newIndex = tasks.findIndex((task) => task.id === over?.id);
+
+    const movedArray = arrayMove(tasks, oldIndex, newIndex);
+
+    const newList = movedArray.map((task, index) => {
+      return { ...task, order: index + 1 };
+    });
+    setTasks(newList);
+
+    const { data, error } = await TaskService.reorderTasks({
+      tasks: newList,
+      workspaceId: workspace.id,
+    });
+
+    if (error) {
+      console.error({ error });
+      return;
+    }
+
+    console.log({ data });
+  };
+
   return (
     <>
-      <Modal open={isOpen} static={false} onClose={close}>
-        <div className="bg-primary p-5 rounded-lg text-white">
+      <Modal open={isOpen} static onClose={close}>
+        <div className="bg-primary p-5 rounded-lg text-white min-w-[400px]">
+          <div className="flex flex-items justify-between">
+            <Text type="subtitle" className="mb-2">
+              Create a task
+            </Text>
+            <button onClick={close} className="hover:text-gray-400">
+              <CloseIcon height={24} width={24} />
+            </button>
+          </div>
+          <hr className="border-gray-500 py-2" />
           <CreateTask workspaceId={workspace.id} />
         </div>
       </Modal>
       <div className="p-5">
+        <button
+          onClick={async () => {
+            const { data, error } = await TaskService.reorderTasks({
+              workspaceId: workspace.id,
+              tasks: [],
+            });
+
+            if (error) {
+              console.error({ error });
+              return;
+            }
+
+            console.log({ data });
+          }}
+        >
+          CHANGE
+        </button>
         <Text type="subtitle">{workspace.name}</Text>
         <hr className="my-5 border-gray-600" />
         <div className="flex flex-row ">
@@ -64,7 +117,7 @@ export const WorkspacePage = ({ workspace }: { workspace: Workspace }) => {
                 <AddIcon height={20} width={20} />
               </button>
             </div>
-            <TaskList tasks={tasks} />
+            <TaskList tasks={tasks} handleChangeTasks={handleChangeTasks} />
           </div>
           <div className="flex-1">
             <Text type="subtitle">Links</Text>

@@ -1,4 +1,4 @@
-import { Workspace } from "@/services/workspace.services";
+import { Workspace } from "@/services/workspace.service";
 import { Link } from "@tanstack/react-router";
 import { WorkspaceUnknownLogo } from "./WorkspaceUnknownLogo";
 import { Text } from "@/components/ui";

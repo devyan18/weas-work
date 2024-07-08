@@ -8,6 +8,7 @@ export type Task = {
   desc: string;
   completed: boolean;
   created_at: string;
+  order: number;
 };
 
 export const createTaskSchema = z.object({
@@ -26,7 +27,7 @@ export class TaskService {
       .from("tasks")
       .select("*")
       .eq("workspace", workspaceId)
-      .order("created_at", { ascending: false });
+      .order("order", { ascending: true });
 
     if (!data) return [];
 
@@ -78,4 +79,19 @@ export class TaskService {
   // static async delete(task: Task) {
   //   return await server.from("tasks").delete().eq("id", task.id);
   // }
+
+  static async reorderTasks({
+    tasks,
+    workspaceId,
+  }: {
+    tasks: Task[];
+    workspaceId: number;
+  }) {
+    const { data, error } = await server
+      .from("tasks")
+      .upsert(tasks)
+      .eq("workspace", workspaceId);
+
+    return { data, error };
+  }
 }

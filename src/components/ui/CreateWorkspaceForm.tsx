@@ -2,7 +2,7 @@ import { useWorkspaces } from "@/providers/WorkspacesProvider";
 import {
   WorkspaceService,
   createWorkspaceSchema,
-} from "@/services/workspace.services";
+} from "@/services/workspace.service";
 import { Button, TextFild } from "@components/ui";
 
 import { SubmitHandler, useForm } from "react-hook-form";

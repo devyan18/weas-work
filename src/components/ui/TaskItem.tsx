@@ -1,12 +1,11 @@
 import { Task, TaskService } from "@/services/task.service";
 import { useState } from "react";
-import {
-  LoadingIcon,
-  ViewIcon,
-  CheckIcon,
-  CheckedIcon,
-} from "@components/icons";
+import { CloseIcon, LoadingIcon, ViewIcon } from "@components/icons";
 import { Button, Modal, useModal, Text } from "@/components/ui";
+import { Checker } from "./Checker";
+import { DragIcon } from "../icons/DragIcon";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 type Props = {
   task: Task;
@@ -16,11 +15,28 @@ export const TaskItem = ({ task }: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const { isOpen, toggle, close } = useModal();
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: task.id });
+
+  const styles = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
     <>
-      <Modal open={isOpen} onClose={close}>
-        <div className="w-[800px] h-[600px] rounded-xl bg-primary">
-          <h1>hola mundo</h1>
+      <Modal open={isOpen} onClose={close} static>
+        <div className="w-[800px] h-[600px] rounded-xl bg-primary p-5">
+          <div className="pb-2 flex items-center justify-between">
+            <Text type="subtitle">Task Details</Text>
+            <button
+              className="text-white hover:text-gray-400 w-[30px]"
+              onClick={() => close()}
+            >
+              <CloseIcon width={24} height={24} />
+            </button>
+          </div>
+          <hr className="border-gray-500 py-2" />
           <Button
             onClick={() => close()}
             value="Close Modal"
@@ -28,43 +44,54 @@ export const TaskItem = ({ task }: Props) => {
           />
         </div>
       </Modal>
-      <div className="p-2 px-4 bg-black-100 rounded-xl w-72 hover:bg-primary cursor-pointer">
+      <div
+        ref={setNodeRef}
+        {...attributes}
+        style={styles}
+        className="p-2 pl-0 px-4 bg-black-100 rounded-xl w-72 hover:bg-primary cursor-pointer"
+      >
         <div className="flex flex-row items-center gap-4 w-full justify-between">
-          <div className="flex flex-row truncate gap-2">
-            <div
-              className="active:transition-transform active:scale-90 cursor-pointer"
-              onClick={async () => {
-                setLoading(true);
-                try {
-                  await TaskService.toggleCompleted({
-                    taskId: task.id,
-                    actualCompletedStatus: task.completed,
-                  });
-                } catch (error) {
-                  console.error(error);
-                } finally {
-                  setTimeout(() => {
-                    setLoading(false);
-                  }, 500);
-                }
-              }}
+          <div
+            className="flex flex-row truncate gap-2 items-center"
+            onClick={async () => {
+              setLoading(true);
+              try {
+                await TaskService.toggleCompleted({
+                  taskId: task.id,
+                  actualCompletedStatus: task.completed,
+                });
+              } catch (error) {
+                console.error(error);
+              } finally {
+                setTimeout(() => {
+                  setLoading(false);
+                }, 500);
+              }
+            }}
+          >
+            <button
+              {...listeners}
+              className="text-gray-400 hover:text-gray-500 transition-all active:text-gray-600 flex items-center justify-center min-w-[30px]"
+              onClick={(e) => e.stopPropagation()}
             >
+              <DragIcon />
+            </button>
+            <div className="active:transition-transform active:scale-90 cursor-pointer flex flex-row items-center">
               {isLoading ? (
-                <LoadingIcon width={20} height={20} />
-              ) : task.completed ? (
-                <CheckedIcon
-                  className=" text-secondary-100 "
-                  width={20}
-                  height={20}
-                />
+                <LoadingIcon width={24} height={24} />
               ) : (
-                <CheckIcon className="bg-transparent" width={20} height={20} />
+                <Checker
+                  startCheck={task.completed}
+                  className={`${task.completed ? "text-blue-400" : "text-blue-200"}`}
+                />
               )}
             </div>
             <Text
               truncate
               type="info"
-              color={task.completed ? "primary" : "secondary"}
+              color={task.completed ? "secondary" : "primary"}
+              // texto tachado
+              className={`${task.completed ? "line-through" : ""}`}
             >
               {task.desc}
             </Text>

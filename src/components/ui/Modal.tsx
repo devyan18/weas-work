@@ -9,13 +9,8 @@ type Props = {
 
 export const Modal = (props: Props) => {
   useEffect(() => {
-    // add event from close modal when press esc key
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (props.static) {
-          return;
-        }
-
         if (props.onClose) props.onClose();
       }
     };
@@ -23,7 +18,6 @@ export const Modal = (props: Props) => {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      console.log("close");
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [props]);

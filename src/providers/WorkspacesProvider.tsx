@@ -1,4 +1,4 @@
-import { WorkspaceService, Workspace } from "@/services/workspace.services";
+import { WorkspaceService, Workspace } from "@/services/workspace.service";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "@/providers/AuthProvider";
 

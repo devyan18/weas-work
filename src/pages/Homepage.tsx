@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui";
 import { useAuth } from "@/providers/AuthProvider";
-import { WorkspaceService } from "@/services/workspace.services";
+import { WorkspaceService } from "@/services/workspace.service";
 
 export const Homepage = () => {
   const { user } = useAuth();

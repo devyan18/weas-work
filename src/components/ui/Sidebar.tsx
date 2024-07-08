@@ -32,7 +32,9 @@ export const Sidebar = ({ className = "" }: Props) => {
           <CreateWorkspaceForm close={close} />
         </div>
       </Modal>
-      <div className={`bg-black-200 rounded-3xl p-5 ${className}`}>
+      <div
+        className={`bg-black-200 rounded-3xl p-5 min-w-[240px] ${className}`}
+      >
         <div className="flex flex-row justify-between mb-2 items-center">
           <Text type="body">My Workspaces</Text>
           <div className="flex flex-row gap-2">

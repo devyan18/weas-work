@@ -1,4 +1,4 @@
-import { WorkspaceService } from "@/services/workspace.services";
+import { WorkspaceService } from "@/services/workspace.service";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LayoutPage } from "@/components/layouts/LayoutPage";
 import { WorkspacePage } from "@/pages/Workspace";

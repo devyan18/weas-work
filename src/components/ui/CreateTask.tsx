@@ -26,15 +26,22 @@ export const CreateTask = ({ workspaceId }: { workspaceId: number }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <TextFild
         type="text"
-        placeholder="Task Description"
+        placeholder="Scale level in luck"
         name="Description of task"
         register={register("desc")}
         error={(errors.desc?.message && errors.desc?.message) as string}
       />
-      <Button type="submit" value="Create Task" />
+      <TextFild
+        type="text"
+        placeholder="Task Description"
+        name="Body of task"
+        register={register("desc")}
+        error={(errors.desc?.message && errors.desc?.message) as string}
+      />
+      <Button type="submit" value="Create Task" className="mt-4 self-start" />
     </form>
   );
 };
