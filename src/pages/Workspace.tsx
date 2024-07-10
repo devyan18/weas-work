@@ -2,6 +2,7 @@ import { AddIcon, CloseIcon } from "@/components/icons";
 import { Modal, Text, useModal } from "@/components/ui";
 import { CreateTask } from "@/components/ui/CreateTask";
 import { TaskList } from "@/components/ui/TaskList";
+import { useLayout } from "@/providers/LayoutProvider";
 import { Task, TaskService } from "@/services/task.service";
 import { Workspace } from "@/services/workspace.service";
 import { server } from "@/supabase/client";
@@ -13,6 +14,8 @@ export const WorkspacePage = ({ workspace }: { workspace: Workspace }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const { isOpen, open, close } = useModal();
+
+  const { layout } = useLayout();
 
   useEffect(() => {
     (async () => {
@@ -85,28 +88,13 @@ export const WorkspacePage = ({ workspace }: { workspace: Workspace }) => {
             </button>
           </div>
           <hr className="border-gray-500 py-2" />
-          <CreateTask workspaceId={workspace.id} />
+          <CreateTask workspaceId={workspace.id} close={close} />
         </div>
       </Modal>
-      <div className="p-5">
-        <button
-          onClick={async () => {
-            const { data, error } = await TaskService.reorderTasks({
-              workspaceId: workspace.id,
-              tasks: [],
-            });
-
-            if (error) {
-              console.error({ error });
-              return;
-            }
-
-            console.log({ data });
-          }}
-        >
-          CHANGE
-        </button>
-        <Text type="subtitle">{workspace.name}</Text>
+      <div className={`${layout.viewSidebar ? "p-5" : "p-8"}`}>
+        <Text type="title" weight="bold">
+          {workspace.name}
+        </Text>
         <hr className="my-5 border-gray-600" />
         <div className="flex flex-row ">
           <div className="flex-[2]">

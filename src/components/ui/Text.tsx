@@ -18,7 +18,7 @@ export const Text = ({
   weight = "regular",
 }: Props) => {
   return (
-    <p
+    <span
       className={`p-0 m-0 ${
         type === "title"
           ? "text-4xl"
@@ -50,6 +50,6 @@ export const Text = ({
       } ${className}`}
     >
       {children}
-    </p>
+    </span>
   );
 };

@@ -22,3 +22,24 @@
     local("Poppins-Light"),
     url("./assets/fonts/Poppins-ExtraLight.ttf") format("truetype");
 }
+
+/* .ce-toolbar__plus {
+  color: white;
+}
+
+.ce-toolbar__plus:hover {
+  color: black;
+}
+
+.ce-toolbar__settings-btn {
+  color: white;
+}
+
+.ce-toolbar__settings-btn:hover {
+  color: black;
+}
+
+.codex-editor {
+  background-color: #1e1e2d;
+  padding: 5px;
+} */

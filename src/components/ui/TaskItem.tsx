@@ -1,11 +1,12 @@
 import { Task, TaskService } from "@/services/task.service";
 import { useState } from "react";
 import { CloseIcon, LoadingIcon, ViewIcon } from "@components/icons";
-import { Button, Modal, useModal, Text } from "@/components/ui";
+import { MyTextEditor, Modal, useModal, Text } from "@/components/ui";
 import { Checker } from "./Checker";
 import { DragIcon } from "../icons/DragIcon";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import useEditorValue from "@/hooks/useEditorValue";
 
 type Props = {
   task: Task;
@@ -13,6 +14,7 @@ type Props = {
 
 export const TaskItem = ({ task }: Props) => {
   const [isLoading, setLoading] = useState<boolean>(false);
+  const { value, setValue } = useEditorValue();
   const { isOpen, toggle, close } = useModal();
 
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -37,11 +39,10 @@ export const TaskItem = ({ task }: Props) => {
             </button>
           </div>
           <hr className="border-gray-500 py-2" />
-          <Button
-            onClick={() => close()}
-            value="Close Modal"
-            variant="primary"
-          />
+
+          <div className="text-white">
+            <MyTextEditor initialValue={value} setValue={setValue} />
+          </div>
         </div>
       </Modal>
       <div
@@ -82,7 +83,7 @@ export const TaskItem = ({ task }: Props) => {
               ) : (
                 <Checker
                   startCheck={task.completed}
-                  className={`${task.completed ? "text-blue-400" : "text-blue-200"}`}
+                  className={`${task.completed ? "text-secondary-200" : "text-white"}`}
                 />
               )}
             </div>
@@ -91,14 +92,14 @@ export const TaskItem = ({ task }: Props) => {
               type="info"
               color={task.completed ? "secondary" : "primary"}
               // texto tachado
-              className={`${task.completed ? "line-through" : ""}`}
+              className={`${task.completed ? "line-through" : ""} min-w-[200px] transition-all`}
             >
               {task.desc}
             </Text>
           </div>
 
           <div
-            className="hover:text-blue-200 transition-all active:text-blue-400"
+            className="hover:text-secondary-100 transition-all active:text-secondary-900"
             onClick={() => {
               toggle();
             }}

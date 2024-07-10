@@ -18,6 +18,8 @@ module.exports = {
     ],
     "semi": ["error", "always"],
     "react-refresh/only-export-components": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   },
 }

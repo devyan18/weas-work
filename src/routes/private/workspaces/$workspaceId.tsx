@@ -1,7 +1,7 @@
 import { WorkspaceService } from "@/services/workspace.service";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LayoutPage } from "@/components/layouts/LayoutPage";
-import { WorkspacePage } from "@/pages/Workspace";
+import { WorkspacePage } from "@/pages";
 
 export const Route = createFileRoute("/private/workspaces/$workspaceId")({
   loader: async ({ params }) => {

@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function MaterialSymbolsCheckIndeterminateSmallRounded(
+export function MaterialSymbolsCheckBoxOutlineBlank(
   props: SVGProps<SVGSVGElement>,
 ) {
   return (
@@ -13,15 +13,13 @@ export function MaterialSymbolsCheckIndeterminateSmallRounded(
     >
       <path
         fill="currentColor"
-        d="M7 13q-.425 0-.712-.288T6 12t.288-.712T7 11h10q.425 0 .713.288T18 12t-.288.713T17 13z"
+        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5z"
       ></path>
     </svg>
   );
 }
 
-export function MaterialSymbolsFitbitCheckSmallRounded(
-  props: SVGProps<SVGSVGElement>,
-) {
+export function MaterialSymbolsCheckBoxRounded(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +30,7 @@ export function MaterialSymbolsFitbitCheckSmallRounded(
     >
       <path
         fill="currentColor"
-        d="m10.5 13.4l4.9-4.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7l-5.6 5.6q-.3.3-.7.3t-.7-.3l-2.6-2.6q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l1.9 1.9Z"
+        d="m10.6 13.4l-2.15-2.15q-.275-.275-.7-.275t-.7.275t-.275.7t.275.7L9.9 15.5q.3.3.7.3t.7-.3l5.65-5.65q.275-.275.275-.7t-.275-.7t-.7-.275t-.7.275zM5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21z"
       ></path>
     </svg>
   );
@@ -46,11 +44,13 @@ export const Checker = ({
   className?: string;
 }) => {
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div
+      className={`flex items-center justify-center ${className} h-[24px] w-[24px]`}
+    >
       {!startCheck ? (
-        <MaterialSymbolsCheckIndeterminateSmallRounded width={24} height={24} />
+        <MaterialSymbolsCheckBoxOutlineBlank width={20} height={20} />
       ) : (
-        <MaterialSymbolsFitbitCheckSmallRounded width={24} height={24} />
+        <MaterialSymbolsCheckBoxRounded width={20} height={20} />
       )}
     </div>
   );

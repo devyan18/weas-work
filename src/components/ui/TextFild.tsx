@@ -7,6 +7,7 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   required?: boolean;
   name?: string;
   register?: UseFormRegisterReturn<string>;
+  description?: string;
 };
 
 export const TextFild = (props: Props) => {
@@ -26,10 +27,15 @@ export const TextFild = (props: Props) => {
         </span>
       </label>
       <input
-        className={`bg-black-100 outline-none p-1 px-2 rounded-lg text-sm ${props.className}`}
+        className={`bg-black-100 outline-none p-1 px-2 rounded-md text-sm h-[34px] ${props.className}`}
         {...restOfProps}
         {...props.register}
       />
+      {props.description && (
+        <Text type="info" color="secondary" className="pl-1">
+          {props.description}
+        </Text>
+      )}
       {props.error && (
         <div className="pl-1">
           <Text color="danger" type="info">

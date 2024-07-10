@@ -5,6 +5,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { AuthProvider, useAuth } from "@/providers/AuthProvider";
 import { WorkspacesProvider } from "@/providers/WorkspacesProvider";
+import { LayoutProvider } from "./providers/LayoutProvider";
 
 // Create a new router instance
 const router = createRouter({ routeTree, context: { isAuth: undefined! } });
@@ -22,9 +23,11 @@ if (!$root.innerHTML) {
   const root = ReactDOM.createRoot($root);
   root.render(
     <AuthProvider>
-      <WorkspacesProvider>
-        <App />
-      </WorkspacesProvider>
+      <LayoutProvider>
+        <WorkspacesProvider>
+          <App />
+        </WorkspacesProvider>
+      </LayoutProvider>
     </AuthProvider>,
   );
 }

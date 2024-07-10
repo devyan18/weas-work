@@ -26,7 +26,15 @@ export const CreateWorkspaceForm = ({ close }: { close: () => void }) => {
 
   const onSubmit: SubmitHandler<Inputs> = async ({ name, logo }: Inputs) => {
     try {
-      await WorkspaceService.createWorkspace({ name, logo: logo || null });
+      const { data, error } = await WorkspaceService.createWorkspace({
+        name,
+        logo: logo || null,
+      });
+
+      console.log({
+        data,
+        error,
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -41,7 +49,8 @@ export const CreateWorkspaceForm = ({ close }: { close: () => void }) => {
         required
         type="text"
         name="name"
-        placeholder="Workspace Name"
+        placeholder="Name"
+        description="Name of workspace"
         register={register("name")}
         error={(errors.name?.message && errors.name?.message) as string}
       />
@@ -50,10 +59,11 @@ export const CreateWorkspaceForm = ({ close }: { close: () => void }) => {
         name="logo"
         placeholder="https://www.logo.jpg"
         register={register("logo")}
+        description="Logo of workspace"
         error={(errors.logo?.message && errors.logo?.message) as string}
       />
       <div className="h-2"></div>
-      <Button value="Create" />
+      <Button value="Create" type="submit" className="self-start" />
     </form>
   );
 };

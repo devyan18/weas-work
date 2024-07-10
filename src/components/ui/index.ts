@@ -1,4 +1,8 @@
+export { MyTextEditor } from "./TextEditor";
+export * from "./BurgerIcon";
 export * from "./Button";
+export * from "./Checker";
+export * from "./CreateTask";
 export * from "./CreateWorkspaceForm";
 export * from "./LoginWithGithub";
 export * from "./LoginWithGoogle";
@@ -6,6 +10,7 @@ export * from "./Modal";
 export * from "./Navbar";
 export * from "./Sidebar";
 export * from "./TaskItem";
+export * from "./TaskList";
 export * from "./Text";
 export * from "./TextFild";
 export * from "./WorkspaceItem";

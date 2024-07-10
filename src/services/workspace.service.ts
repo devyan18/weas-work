@@ -104,5 +104,7 @@ export class WorkspaceService {
     } else {
       console.log("Nuevo workspace creado:", data);
     }
+
+    return { data, error };
   }
 }

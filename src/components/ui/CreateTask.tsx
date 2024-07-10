@@ -8,7 +8,13 @@ type Inputs = {
   desc: string;
 };
 
-export const CreateTask = ({ workspaceId }: { workspaceId: number }) => {
+export const CreateTask = ({
+  workspaceId,
+  close,
+}: {
+  workspaceId: number;
+  close: () => void;
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,26 +28,23 @@ export const CreateTask = ({ workspaceId }: { workspaceId: number }) => {
       await TaskService.create({ desc, workspaceId });
     } catch (error) {
       console.error(error);
+    } finally {
+      close();
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
       <TextFild
+        required
         type="text"
         placeholder="Scale level in luck"
-        name="Description of task"
+        name="Description"
+        description="Description of task"
         register={register("desc")}
         error={(errors.desc?.message && errors.desc?.message) as string}
       />
-      <TextFild
-        type="text"
-        placeholder="Task Description"
-        name="Body of task"
-        register={register("desc")}
-        error={(errors.desc?.message && errors.desc?.message) as string}
-      />
-      <Button type="submit" value="Create Task" className="mt-4 self-start" />
+      <Button type="submit" value="Create" className="mt-4 self-start" />
     </form>
   );
 };
